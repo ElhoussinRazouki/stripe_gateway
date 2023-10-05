@@ -1,6 +1,6 @@
 import { stripe } from ".";
 
-export async function Subscribe(productId: string) {
+export async function SubscribeTo(productId: string) {
   if (!productId) throw new Error('Product Id is required');
   const product = await stripe.products.retrieve(productId);
   const session = await stripe.checkout.sessions.create({
@@ -12,8 +12,9 @@ export async function Subscribe(productId: string) {
       },
     ],
     mode: 'subscription',
-    success_url: 'https://example.com/success',
-    cancel_url: 'https://example.com/cancel',
+    success_url: 'http://localhost:3000/success',
+    cancel_url: 'http://localhost:3000',
   });
+
   return session.url;
 }
