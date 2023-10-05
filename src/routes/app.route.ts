@@ -1,5 +1,6 @@
-import { Router } from "express";
-import { Subscribe } from "../utils/subsciption";
+import express, { Router } from "express";
+import { Subscribe } from "../utils/stripe/subsciption";
+import { Webhook } from "../utils/stripe/webHook";
 
 export const router = Router();
 
@@ -11,7 +12,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/payment', (req, res) => {
-
     Subscribe(req.body.productId).then((URL) => res.json({
         url: URL
     })).catch((err) => {
@@ -20,3 +20,10 @@ router.post('/payment', (req, res) => {
         })
     })
 })
+
+router.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+    const sig = request.headers['stripe-signature'];
+    const body = request.body;
+    Webhook(body, sig as string);
+})
+  

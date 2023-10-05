@@ -1,10 +1,4 @@
-import { Stripe } from "stripe";
-import dotenv from 'dotenv';
-dotenv.config();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-08-16',
-});
+import { stripe } from ".";
 
 export async function Subscribe(productId: string) {
   if (!productId) throw new Error('Product Id is required');
