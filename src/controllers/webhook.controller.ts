@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { HandleEvent } from '../utils/stripe/HandleEvent';
+import { handleEvent } from '../utils/stripe.utils';
+
 
 
 
@@ -7,7 +8,7 @@ import { HandleEvent } from '../utils/stripe/HandleEvent';
 // stripe event handler
 export async function WebHook(req: Request, res: Response) {
     const sig = req.headers['stripe-signature'];
-    HandleEvent(req.body, sig).then(() => res.send()).catch(console.log)
+    handleEvent(req.body, sig).then(() => res.send()).catch(console.log)
 }
 
 
